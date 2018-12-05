@@ -6,17 +6,21 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "body-parser": "^1.18.3",
-    "chai": "^4.2.0",
-    "chai-http": "^4.2.0",
+    "chalk": "^2.4.1",
     "express": "^4.16.4",
-    "mocha": "^5.2.0",
+    "jwt-simple": "^0.5.5",
     "mongoose": "^5.3.14",
     "morgan": "^1.9.1",
-    "nodemon": "^1.18.7",
+    "sha.js": "^2.4.11",
     "tracer": "^0.9.6"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "nodemon": "^1.18.7",
+    "mocha": "^5.2.0"
   },
   "scripts": {
     "start": "nodemon server.js",
