@@ -1,0 +1,39 @@
+{
+  "name": "cswp_nodejs_backend",
+  "version": "1.0.0",
+  "description": "A NodeJS Server/API to serve as a backend in the client side web programming project",
+  "main": "src/server.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "mongoose": "^5.3.14",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.7",
+    "tracer": "^0.9.6"
+  },
+  "scripts": {
+    "start": "nodemon server.js",
+    "dev": "SET NODE_ENV=development& nodemon server.js",
+    "prod": "SET NODE_ENV=production& nodemon server.js",
+    "test": "SET NODE_ENV=testing& npm run tests",
+    "online-test": "SET NODE_ENV=online-testing& npm run tests",
+    "tests": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RickHamers/-CSWP-Nodejs-Backend.git"
+  },
+  "author": "TypicalDoofus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RickHamers/-CSWP-Nodejs-Backend/issues"
+  },
+  "homepage": "https://github.com/RickHamers/-CSWP-Nodejs-Backend#readme"
+}
