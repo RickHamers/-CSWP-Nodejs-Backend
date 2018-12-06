@@ -14,11 +14,6 @@ before((done) => {
 beforeEach(function(done) {
     this.timeout(10000);
     const { threads, users, comments }  = mongoose.collections;
-    threads.drop(() => {
-        comments.drop(() => {
-            users.drop();
-            done();
-            })
-        })
+    users.drop(() => done());
 });
 

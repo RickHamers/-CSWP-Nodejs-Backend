@@ -185,7 +185,7 @@ describe('User API CRUD functionality', () => {
                         done()
                     })
             })
-    }).timeout(5000)
+    }).timeout(5000);
 
     it('/PUT api should return status 200 when putting a valid user', (done) => {
         chai.request(server)
@@ -221,7 +221,7 @@ describe('User API CRUD functionality', () => {
             })
     }).timeout(5000);
 
-    it('/PUT should return a status 404 when the user is not found when putting a user', (done) => {
+    it('/PUT should return a status 500 when the user is not found when putting a user', (done) => {
         chai.request(server)
             .put('/api/user')
             .send({ username: 'testUser', password: 'testPassword', newPassword: 'newTestPassword' })
@@ -233,7 +233,7 @@ describe('User API CRUD functionality', () => {
             })
     }).timeout(5000);
 
-    it('/PUT should return a status 404 when the username for putting a user is omitted', (done) => {
+    it('/PUT should return a status 500 when the username for putting a user is omitted', (done) => {
         chai.request(server)
             .post('/api/user')
             .send({ username: 'testUser',  password: 'testPassword' })
@@ -242,7 +242,7 @@ describe('User API CRUD functionality', () => {
                     .put('/api/user')
                     .send({ username: '',  password: 'newTestPassword', newPassword:'newTestingPassword' })
                     .end((err, res) => {
-                        res.should.have.status(404);
+                        res.should.have.status(500);
                         res.should.be.a('object');
 
                         done();

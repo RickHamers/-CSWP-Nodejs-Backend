@@ -6,6 +6,7 @@
 const ApiError = require('../model/ApiError');
 const mongoose = require('mongoose');
 const User = require('../model/user');
+const assert = require('assert');
 
 module.exports = {
 
@@ -40,6 +41,7 @@ module.exports = {
             '-=-=-=-=-=-=-=-=-=-=-=-=-=- POST a user -=-=-=-=-=-=-=-=-=-=-=-=-=-');
         try{
             /* validation */
+            console.log(req.body);
             assert(req.body.username, 'username must be provided');
             assert(req.body.password, 'password must be provided');
 
@@ -61,7 +63,7 @@ module.exports = {
                                     })
                             .catch((error) => next(new ApiError(error.toString(), 500)))
                     }else{
-                        next(new ApiError('person already exsist in the database', 409));
+                        next(new ApiError('person already exists in the database', 409));
                     }
                 })
                 .catch((error) => next(new ApiError(error.toString(), 500)))
