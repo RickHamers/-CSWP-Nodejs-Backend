@@ -11,7 +11,7 @@ const { webPort, logger } = require('./config/config');
 require('./config/mongo.db');
 
 /* require all routes */
-// TODO const example_routes = require('./routes/example_routes');
+user_routes = require('./routes/user_routes');
 
 /* server setup */
 const port = process.env.PORT || webPort;
@@ -24,7 +24,7 @@ app.use(morgan('dev'));
 app.use(bodyparser.json());
 
 /* parse all the defined endpoints */
-//TODO app.use('/api', example_routes);
+app.use('/api', user_routes);
 
 /* catch all non-existing endpoint requests and report a 404 error */
 app.use('*', function (req, res, next) {
