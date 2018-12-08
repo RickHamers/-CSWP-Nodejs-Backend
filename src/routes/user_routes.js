@@ -1,5 +1,5 @@
 /*
-    user_routes.js - Routing the requests for examples
+    user_routes.js - Routing the requests for users
  */
 
 /* Requiring the necessary libraries and assets */

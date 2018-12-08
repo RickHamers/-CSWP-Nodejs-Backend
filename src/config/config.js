@@ -3,6 +3,8 @@
 
 /* set the logging level */
 const loglevel = process.env.LOGLEVEL || 'trace';
+
+/*  use secretkey from environment variables */
 const secretkey = process.env.SECRETKEY;
 
 /* export the class for use elsewhere */

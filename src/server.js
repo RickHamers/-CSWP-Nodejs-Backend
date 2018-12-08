@@ -12,6 +12,7 @@ require('./config/mongo.db');
 
 /* require all routes */
 user_routes = require('./routes/user_routes');
+thread_routes = require('./routes/thread_routes');
 
 /* server setup */
 const port = process.env.PORT || webPort;
@@ -25,6 +26,7 @@ app.use(bodyparser.json());
 
 /* parse all the defined endpoints */
 app.use('/api', user_routes);
+app.use('/api', thread_routes);
 
 /* catch all non-existing endpoint requests and report a 404 error */
 app.use('*', function (req, res, next) {
