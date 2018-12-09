@@ -93,7 +93,7 @@ module.exports = {
             User.findOne({ username: username })
                 .then((user) => {
                     if(user !== null){
-                        if(user.password === password){
+                        if(bcrypt.compareSync(password, user.password)){
                             console.log('-=-=-=-=-=-=-=-=-=-=- Updating user ' + user.username + ' -=-=-=-=-=-=-=-=-=-=-');
                             User.updateOne({username: username, password: password}, {password: newPassword}) // Find first record with the specific username and update it in the database - .findOneAndUpdate returns a promise
                                 .then( () => {
@@ -129,7 +129,7 @@ module.exports = {
             User.findOne({username: username})
                 .then((user) => {
                     if(user !== null){
-                        if(user.password === password){
+                        if(bcrypt.compareSync(password, user.password)){
                             console.log('-=-=-=-=-=-=-=-=-=-=- Deleting user ' + username + ' -=-=-=-=-=-=-=-=-=-=-');
                             User.deleteOne({username: username, password: password})
                                 .then( () => {
