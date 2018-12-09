@@ -7,6 +7,8 @@ const ApiError = require('../model/ApiError');
 const mongoose = require('mongoose');
 const User = require('../model/user');
 const assert = require('assert');
+let bcrypt = require('bcryptjs');
+
 
 module.exports = {
 

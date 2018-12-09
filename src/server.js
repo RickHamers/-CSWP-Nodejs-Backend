@@ -11,6 +11,7 @@ const { webPort, logger } = require('./config/config');
 require('./config/mongo.db');
 
 /* require all routes */
+auth_routes = require('./routes/auth_routes');
 user_routes = require('./routes/user_routes');
 thread_routes = require('./routes/thread_routes');
 
@@ -25,6 +26,7 @@ app.use(morgan('dev'));
 app.use(bodyparser.json());
 
 /* parse all the defined endpoints */
+app.use('/api', auth_routes);
 app.use('/api', user_routes);
 app.use('/api', thread_routes);
 

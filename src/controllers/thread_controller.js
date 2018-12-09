@@ -9,6 +9,7 @@ const Comment = require('../model/thread').comment;
 const User = require('../model/user');
 const assert = require('assert');
 const mongoose = require('mongoose');
+let bcrypt = require('bcryptjs');
 
 module.exports = {
 

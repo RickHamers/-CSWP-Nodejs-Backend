@@ -5,36 +5,37 @@
 /* Requiring the necessary libraries and assets */
 const express = require('express');
 const thread_controller = require('../controllers/thread_controller');
+let VerifyToken = require('../auth/VerifyToken');
 
 /* Creating the express router */
 let routes = express.Router();
 
 /* The GET thread request */
-routes.get('/thread', thread_controller.getThread);
+routes.get('/thread', VerifyToken, thread_controller.getThread);
 
 /* the GET all threads request */
-routes.get('/threads', thread_controller.getAllThreads);
+routes.get('/threads', VerifyToken, thread_controller.getAllThreads);
 
 /* The POST thread request */
-routes.post('/thread', thread_controller.postThread);
+routes.post('/thread', VerifyToken, thread_controller.postThread);
 
 /* The POST thread request */
-routes.post('/thread/comment', thread_controller.postCommentOnThread);
+routes.post('/thread/comment', VerifyToken, thread_controller.postCommentOnThread);
 
 /* The POST thread request */
-routes.post('/thread/comments', thread_controller.postCommentOnComment);
+routes.post('/thread/comments', VerifyToken, thread_controller.postCommentOnComment);
 
 /* The POST upvote request */
-routes.post('/thread/up', thread_controller.postUpvote);
+routes.post('/thread/up', VerifyToken, thread_controller.postUpvote);
 
 /* The POST upvote request */
-routes.post('/thread/down', thread_controller.postDownvote);
+routes.post('/thread/down', VerifyToken, thread_controller.postDownvote);
 
 /* the UPDATE thread request */
-routes.put('/thread', thread_controller.updateThread);
+routes.put('/thread', VerifyToken, thread_controller.updateThread);
 
 /* The DELETE specific thread request */
-routes.delete('/thread', thread_controller.deleteThread);
+routes.delete('/thread', VerifyToken, thread_controller.deleteThread);
 
 /* The DELETE all threads request */
 routes.delete('/threads', thread_controller.deleteAllThreads);
