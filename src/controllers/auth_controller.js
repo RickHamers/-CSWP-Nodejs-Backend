@@ -9,13 +9,16 @@ let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
 let config = require('../config/config');
 const ApiError = require('../model/ApiError');
+const moment = require('moment');
 
 
 
 module.exports = {
-    registerUser(req, res, next) {
+
+    /* function used to post a new user */
+    registerUser(req, res, next){
         console.log('-=-=-=-=-=-=-=-=-=-=- A POST request was made -=-=-=-=-=-=-=-=-=-=-' + '\n' +
-            '=-=-=-=-=-=-=-=-=-=-=-=-=- REGISTER USER -=-=-=-=-=-=-=-=-=-=-=-=-=');
+                    '-=-=-=-=-=-=-=-=-=-=-=-=-= REGISTER USER =-=-=-=-=-=-=-=-=-=-=-=-=-');
         try{
             /* validation */
             console.log(req.body);
@@ -27,24 +30,26 @@ module.exports = {
             const password = req.body.password || '';
 
             /* hashing the password with bcrypt */
-            var hashedPassword = bcrypt.hashSync(password);
+            const hashedPassword = bcrypt.hashSync(password);
 
             /* create a new user with these constants */
-            User.create({
-                    username: username,
-                    password: hashedPassword
-                },
-                /* registering the user and returning the token */
-                function (err, user) {
-                    if (err) return res.status(500).send("An error occurred whilst registering the user");
-                    // create a token
-                    const token = jwt.sign({id: user._id}, config.secretkey, {
-                        expiresIn: 86400 // expires in 24 hours
-                    });
-                    res.status(200).send({auth: true, token: token});
+            const newUser = new User({username: username, password: hashedPassword});
 
+            /* save the new user to the database */
+            User.findOne({username: username})
+                .then((user) => {
+                    if(user === null){
+                        console.log('-=-=-=-=-=-=-=-=-=-=- Creating user ' + username + ' -=-=-=-=-=-=-=-=-=-=-');
+                        newUser.save() //Saving the User to the database - .save returns a promise
+                            .then(() => {
+                                return res.status(200).json(newUser).end();
+                            })
+                            .catch((error) => next(new ApiError(error.toString(), 500)))
+                    }else{
+                        next(new ApiError('person already exists in the database', 409));
+                    }
                 })
-
+                .catch((error) => next(new ApiError(error.toString(), 500)))
         } catch(error) {next(new ApiError(error.message, 422))}
     },
 
@@ -72,8 +77,10 @@ module.exports = {
                             var token = jwt.sign({ id: user._id }, config.secretkey, {
                                 expiresIn: 86400 //Expires in 24 hrs
                             });
-                            res.status(200).send({ auth: true, token: token });
+                            res.status(200).send({ auth: true, token: token, expiresAt: moment().add(24, 'hours').valueOf()});
                         }
+                    } else {
+                        next(new ApiError('user not found', 404));
                     }
                 })
                 .catch((error) => next(new ApiError(error.toString(), 500)))

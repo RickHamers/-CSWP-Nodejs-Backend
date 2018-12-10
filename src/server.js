@@ -24,6 +24,18 @@ const app = express();
 /* user morgan as logger and user bodyparser to parse JSON */
 app.use(morgan('dev'));
 app.use(bodyparser.json());
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, x-access-token ,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    if(req.method === 'OPTIONS') {
+        res.sendStatus(200)
+    } else {
+        next();
+    }
+});
 
 /* parse all the defined endpoints */
 app.use('/api', auth_routes);

@@ -36,42 +36,7 @@ module.exports = {
                 .catch((error) => next(new ApiError(error.toString(), 500)));
         } catch(error) { next(new ApiError(error.message, 422)) }
     },
-
-    /* function used to post a new user */
-    postUser(req, res, next){
-        console.log('-=-=-=-=-=-=-=-=-=-=- A POST request was made -=-=-=-=-=-=-=-=-=-=-' + '\n' +
-            '-=-=-=-=-=-=-=-=-=-=-=-=-=- POST a user -=-=-=-=-=-=-=-=-=-=-=-=-=-');
-        try{
-            /* validation */
-            console.log(req.body);
-            assert(req.body.username, 'username must be provided');
-            assert(req.body.password, 'password must be provided');
-
-            /* making constants with username and password from the request's body */
-            const username = req.body.username || '';
-            const password = req.body.password || '';
-
-            /* create a new user with these constants */
-            const newUser = new User({username: username, password: password});
-
-            /* save the new user to the database */
-            User.findOne({username: username})
-                .then((user) => {
-                    if(user === null){
-                        console.log('-=-=-=-=-=-=-=-=-=-=- Creating user ' + username + ' -=-=-=-=-=-=-=-=-=-=-');
-                        newUser.save() //Saving the User to the database - .save returns a promise
-                            .then(() => {
-                                return res.status(200).json(newUser).end();
-                                    })
-                            .catch((error) => next(new ApiError(error.toString(), 500)))
-                    }else{
-                        next(new ApiError('person already exists in the database', 409));
-                    }
-                })
-                .catch((error) => next(new ApiError(error.toString(), 500)))
-        } catch(error) {next(new ApiError(error.message, 422))}
-    },
-
+    
     /* function used to update a user */
     updateUser(req, res, next) {
         console.log('-=-=-=-=-=-=-=-=-=-=- A PUT request was made -=-=-=-=-=-=-=-=-=-=-' + '\n' +
