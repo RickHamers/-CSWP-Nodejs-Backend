@@ -37,8 +37,14 @@ routes.post('/thread/down', VerifyToken, thread_controller.postDownvote);
 /* the UPDATE thread request */
 routes.put('/thread', VerifyToken, thread_controller.updateThread);
 
+/* the UPDATE comment request */
+routes.put('/comment', VerifyToken, thread_controller.updateComment);
+
 /* The DELETE specific thread request */
 routes.delete('/thread', VerifyToken, thread_controller.deleteThread);
+
+/* The DELETE specific comment request */
+routes.delete('/comment', VerifyToken, thread_controller.deleteComment);
 
 /* The DELETE all threads request */
 routes.delete('/threads', thread_controller.deleteAllThreads);

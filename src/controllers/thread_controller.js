@@ -340,6 +340,38 @@ module.exports = {
             .catch((error) => next(new ApiError(error.toString(), 500)));
     },
 
+    /* function used to update a comment */
+    updateComment(req, res, next) {
+        console.log('-=-=-=-=-=-=-=-=-=-=- A PUT request was made -=-=-=-=-=-=-=-=-=-=-' + '\n' +
+            '-=-=-=-=-=-=-=-=-=-=-=-=-=- PUT comment -=-=-=-=-=-=-=-=-=-=-=-=-=-');
+        try {
+            /* validation */
+            assert(req.query.id, 'id must be provided');
+            assert(req.body.content, 'content must be provided');
+
+
+
+            /* making constants with (new) title and (new) content from the request's body */
+            const id = req.query.id || '';
+            const content = req.body.content || '';
+
+            /* update the thread with the given constants */
+            Comment.findOne({_id: id})
+                .then((comment) => {
+                    if (comment !== null) {
+                        Comment.updateOne({_id: id}, {content: content})
+                            .then(() => res.status(200).json('comment updated').end())
+                            .catch((error) => next(new ApiError(error.toString(), 500)));
+                    } else {
+                        next(new ApiError('comment not found', 404));
+                    }
+                })
+                .catch((error) => next(new ApiError(error.toString(), 500)));
+        } catch (error) {
+            next(new ApiError(error.message, 422))
+        }
+    },
+
     /* function used to update a new thread */
     updateThread(req, res, next) {
         console.log('-=-=-=-=-=-=-=-=-=-=- A PUT request was made -=-=-=-=-=-=-=-=-=-=-' + '\n' +
@@ -367,6 +399,33 @@ module.exports = {
                             .catch((error) => next(new ApiError(error.toString(), 500)));
                     } else {
                         next(new ApiError('thread not found', 404));
+                    }
+                })
+                .catch((error) => next(new ApiError(error.toString(), 500)));
+        } catch (error) {
+            next(new ApiError(error.message, 422))
+        }
+    },
+
+    deleteComment(req, res, next) {
+        console.log('-=-=-=-=-=-=-=-=-=-=- A PUT request was made -=-=-=-=-=-=-=-=-=-=-' + '\n' +
+            '-=-=-=-=-=-=-=-=-=-=-=-=-=- PUT comment -=-=-=-=-=-=-=-=-=-=-=-=-=-');
+        try {
+            /* validation */
+            assert(req.query.id, 'id must be provided');
+
+            /* making constants with (new) title and (new) content from the request's body */
+            const id = req.query.id || '';
+
+            /* update the thread with the given constants */
+            Comment.findOne({_id: id})
+                .then((comment) => {
+                    if (comment !== null) {
+                        Comment.updateOne({_id: id}, {content: '[deleted]'})
+                            .then(() => res.status(200).json('comment deleted').end())
+                            .catch((error) => next(new ApiError(error.toString(), 500)));
+                    } else {
+                        next(new ApiError('comment not found', 404));
                     }
                 })
                 .catch((error) => next(new ApiError(error.toString(), 500)));
