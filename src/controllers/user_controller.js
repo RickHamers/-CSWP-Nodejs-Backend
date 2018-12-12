@@ -36,7 +36,7 @@ module.exports = {
                 .catch((error) => next(new ApiError(error.toString(), 500)));
         } catch(error) { next(new ApiError(error.message, 422)) }
     },
-    
+
     /* function used to update a user */
     updateUser(req, res, next) {
         console.log('-=-=-=-=-=-=-=-=-=-=- A PUT request was made -=-=-=-=-=-=-=-=-=-=-' + '\n' +
@@ -54,13 +54,16 @@ module.exports = {
             const password = req.body.password || '';
             const newPassword = req.body.newPassword || '';
 
+            /* hashing the password with bcrypt */
+            const hashedNewPassword = bcrypt.hashSync(newPassword);
+
             /* update the user with the given constants */
             User.findOne({ username: username })
                 .then((user) => {
                     if(user !== null){
                         if(bcrypt.compareSync(password, user.password)){
                             console.log('-=-=-=-=-=-=-=-=-=-=- Updating user ' + user.username + ' -=-=-=-=-=-=-=-=-=-=-');
-                            User.updateOne({username: username, password: password}, {password: newPassword}) // Find first record with the specific username and update it in the database - .findOneAndUpdate returns a promise
+                            User.updateOne({username: username}, {password: hashedNewPassword}) // Find first record with the specific username and update it in the database - .findOneAndUpdate returns a promise
                                 .then( () => {
                                     return res.status(200).json('user updated').end()
                                 })

@@ -13,6 +13,9 @@ let routes = express.Router();
 /* The GET thread request */
 routes.get('/thread', VerifyToken, thread_controller.getThread);
 
+/* The GET comment request */
+routes.get('/comment', VerifyToken, thread_controller.getComment);
+
 /* the GET all threads request */
 routes.get('/threads', VerifyToken, thread_controller.getAllThreads);
 

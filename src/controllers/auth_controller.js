@@ -77,7 +77,7 @@ module.exports = {
                             var token = jwt.sign({ id: user._id }, config.secretkey, {
                                 expiresIn: 86400 //Expires in 24 hrs
                             });
-                            res.status(200).send({ auth: true, token: token, expiresAt: moment().add(24, 'hours').valueOf()});
+                            res.status(200).send({ auth: true, username: user.username, id: user._id, token: token, expiresAt: moment().add(24, 'hours').valueOf()});
                         }
                     } else {
                         next(new ApiError('user not found', 404));

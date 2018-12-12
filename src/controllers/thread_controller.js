@@ -39,11 +39,36 @@ module.exports = {
         }
     },
 
+    getComment(req, res, next) {
+        console.log('-=-=-=-=-=-=-=-=-=-=- A GET request was made -=-=-=-=-=-=-=-=-=-=-' + '\n' +
+            '=-=-=-=-=-=-=-=-=-=-=-=-=- GET a comment -=-=-=-=-=-=-=-=-=-=-=-=-=');
+        try {
+            /* validation */
+            assert(req.query.id, 'id must be provided');
+
+            /* making constant with title from the request's body */
+            const id = req.query.id || '';
+
+            /* get thread with the given constant */
+            Comment.findOne({_id: id})
+                .then((comment) => {
+                    if (comment !== null) {
+                        res.status(200).json(comment).end()
+                    } else {
+                        next(new ApiError('comment not found', 404));
+                    }
+                })
+                .catch((error) => next(new ApiError(error.toString(), 500)));
+        } catch (error) {
+            next(new ApiError(error.message, 422))
+        }
+    },
+
     getAllThreads(req, res, next) {
         console.log('-=-=-=-=-=-=-=-=-=-=- A GET request was made -=-=-=-=-=-=-=-=-=-=-' + '\n' +
             '-=-=-=-=-=-=-=-=-=-=-=-=- GET all threads -=-=-=-=-=-=-=-=-=-=-=-=');
 
-        Thread.find({}, {_id: 1, title: 1, content: 1, user: 1, upVote: 1, downVote: 1})
+        Thread.find({}, {_id: 1, title: 1, content: 1, username: 1, upVote: 1, downVote: 1})
             .then((threads) => {
                 if (threads.length > 0 ) {
                     res.status(200).json(threads).end()
@@ -61,11 +86,11 @@ module.exports = {
 
         try {
             /* validation */
-            assert(req.body.username, 'nausernameme must be provided');
+            assert(req.body.username, 'usernameme must be provided');
             assert(req.body.title, 'title must be provided');
             assert(req.body.content, 'content must be provided');
 
-            /* making constants with namusernamee, title and content from the request's body */
+            /* making constants with username, title and content from the request's body */
             const username = req.body.username || '';
             const title = req.body.title || '';
             const content = req.body.content || '';
@@ -321,22 +346,23 @@ module.exports = {
             '-=-=-=-=-=-=-=-=-=-=-=-=-=- PUT thread -=-=-=-=-=-=-=-=-=-=-=-=-=-');
         try {
             /* validation */
-            assert(req.body._id, 'id must be provided');
+            assert(req.query.id, 'id must be provided');
+            assert(req.body.title, 'title must be provided');
             assert(req.body.content, 'content must be provided');
-            assert(req.body.newContent, 'new content must be provided');
+
 
 
             /* making constants with (new) title and (new) content from the request's body */
-            const id = req.body._id || '';
+            const id = req.query.id || '';
+            const title = req.body.title || '';
             const content = req.body.content || '';
-            const newContent = req.body.newContent || '';
 
             /* update the thread with the given constants */
             Thread.findOne({_id: id})
                 .then((thread) => {
                     if (thread !== null) {
                         console.log('-=-=-=-=-=-=-=-=-=-=- Updating thread ' + thread.title + ' -=-=-=-=-=-=-=-=-=-=-');
-                        Thread.updateOne({content: content}, {content: newContent})
+                        Thread.updateOne({title: title}, {content: content})
                             .then(() => res.status(200).json('thread updated').end())
                             .catch((error) => next(new ApiError(error.toString(), 500)));
                     } else {

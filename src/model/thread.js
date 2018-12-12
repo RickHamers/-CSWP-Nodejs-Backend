@@ -74,6 +74,10 @@ CommentSchema
 /* creating the comment model */
 const Comment = mongoose.model('comment', CommentSchema);
 
+ThreadSchema
+    .pre('findOne', autoPopulateComments)
+    .pre('find', autoPopulateComments);
+
 /* creating the thread model */
 const Thread = mongoose.model('thread', ThreadSchema);
 
