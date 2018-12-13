@@ -5,18 +5,17 @@ const { logger }  = require('./config');
 /* use ES6 promises instead of mongoose promise */
 mongoose.Promise = global.Promise;
 
-//TODO Online databases
-// if(process.env.NODE_ENV === 'production'){
-//     console.log('-=-=-=-=-=-=-=-=-=-=- Connecting to PRODUCTION database -=-=-=-=-=-=-=-=-=-=-');
-//     mongoose.connect('ConnectionString',
-//         {useNewUrlParser: true});
-//
-// } else if(process.env.NODE_ENV === 'online-testing'){
-//         console.log('-=-=-=-=-=-=-=-=-=-=- Connecting to ONLINE TESTING database -=-=-=-=-=-=-=-=-=-=-');
-//         mongoose.connect('ConnectionString',
-//             {useNewUrlParser: true});
-//
-// }
+if(process.env.NODE_ENV === 'production'){
+    console.log('-=-=-=-=-=-=-=-=-=-=- Connecting to PRODUCTION database -=-=-=-=-=-=-=-=-=-=-');
+    mongoose.connect('mongodb+srv://studdit:project@studditproject-oi4rl.azure.mongodb.net/CSWPBackend?retryWrites=true',
+        {useNewUrlParser: true});
+
+} else if(process.env.NODE_ENV === 'online-testing'){
+        console.log('-=-=-=-=-=-=-=-=-=-=- Connecting to ONLINE TESTING database -=-=-=-=-=-=-=-=-=-=-');
+        mongoose.connect('mongodb+srv://studdit:project@studditproject-oi4rl.azure.mongodb.net/CSWPBackendTest?retryWrites=true',
+            {useNewUrlParser: true});
+
+}
 
 /* else */ if(process.env.NODE_ENV === 'development'){
     console.log('-=-=-=-=-=-=-=-=-=-=- Connecting to DEVELOP database -=-=-=-=-=-=-=-=-=-=-');
