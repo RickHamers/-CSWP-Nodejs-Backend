@@ -15,14 +15,13 @@
     "moment": "^2.22.2",
     "mongoose": "^5.3.14",
     "morgan": "^1.9.1",
-    "tracer": "^0.9.6"
-  },
-  "devDependencies": {
+    "tracer": "^0.9.6",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "nodemon": "^1.18.7",
     "mocha": "^5.2.0"
   },
+  
   "scripts": {
     "start": "nodemon server.js",
     "dev": "SET NODE_ENV=development& nodemon server.js",
