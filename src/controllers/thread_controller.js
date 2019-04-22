@@ -394,7 +394,7 @@ module.exports = {
                 .then((thread) => {
                     if (thread !== null) {
                         console.log('-=-=-=-=-=-=-=-=-=-=- Updating thread ' + thread.title + ' -=-=-=-=-=-=-=-=-=-=-');
-                        Thread.updateOne({title: title}, {content: content})
+                        Thread.updateOne({_id: id}, {title: title, content: content})
                             .then(() => res.status(200).json('thread updated').end())
                             .catch((error) => next(new ApiError(error.toString(), 500)));
                     } else {
